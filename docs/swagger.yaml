@@ -1,0 +1,28 @@
+info:
+  contact: {}
+paths:
+  /greet/:
+    get:
+      consumes:
+      - '*/*'
+      description: get authtoken by
+      parameters:
+      - description: userid
+        in: query
+        name: userId
+        required: true
+        type: string
+      - description: authToken
+        in: query
+        name: authToken
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Login with authtoken
+swagger: "2.0"

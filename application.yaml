@@ -11,10 +11,10 @@ loglevel: "debug"
 consuluri: "http://internal-jg-jwr-staging-consul-sg-1553099721.ap-south-1.elb.amazonaws.com:8500"
 consultoken: "457a68a4-4113-771b-f160-eb4bae1dbbcf"
 KVPath: config/kyc-service-qa10
-name: "hello_world_application"
+name: "rummy-session-service"
 build: "local"
 monitoring:
   Name: NEWRELIC
   NEWRELIC:
-    ServiceName: hello_world_service
+    ServiceName: rummy-session-service
     Key: 0e4bb7cee8dbfeaaeed0fb712f77eadfea7f5df7

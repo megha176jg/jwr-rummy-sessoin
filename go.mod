@@ -10,6 +10,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
+	github.com/swaggo/swag v1.8.12
 )
 
 require (
@@ -82,7 +83,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.15.0 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
-	github.com/swaggo/swag v1.8.12 // indirect
 	github.com/tdewolff/minify/v2 v2.12.4 // indirect
 	github.com/tdewolff/parse/v2 v2.6.4 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect

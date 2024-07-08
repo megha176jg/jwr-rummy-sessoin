@@ -1,7 +1,31 @@
 info:
   contact: {}
 paths:
-  /greet/:
+  /api/v1/session/user/{user_id}/invalidate:
+    delete:
+      consumes:
+      - '*/*'
+      description: get authtoken by
+      parameters:
+      - description: userid
+        in: query
+        name: userId
+        required: true
+        type: string
+      - description: authToken
+        in: query
+        name: authToken
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Logout with authtoken
+  /api/v1/session/user/{user_id}/validate:
     get:
       consumes:
       - '*/*'

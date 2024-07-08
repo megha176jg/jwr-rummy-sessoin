@@ -1,6 +1,8 @@
 package redismiddleware
 
 import (
+	"rummy-session/repository/models"
+
 	"bitbucket.org/junglee_games/getsetgo/monitoring"
 	"github.com/go-redis/redis"
 )
@@ -14,22 +16,47 @@ type RedisRepository struct {
 	monitoringAgent monitoring.Agent
 }
 
-func (r *RedisRepository) GetTitle(name string) (string, error) {
+func (r *RedisRepository) GetAuthToken(userId string) models.AuthToken {
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     r.RedisConfig.Addr,
 		Password: r.RedisConfig.Password,
 		DB:       0,
 	})
-	val, err := redisClient.Get(name).Result()
+	val, err := redisClient.Get(userId).Result()
 	if err != nil {
-		return "", err
+		return models.AuthToken{
+			Error: err,
+		}
 	}
+	return models.AuthToken{
+		AuthToken: val,
+	}
+}
 
-	_, err = redisClient.Set(name, val, 0).Result()
+func (r *RedisRepository) DeleteAuthToken(userId string) error {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     r.RedisConfig.Addr,
+		Password: r.RedisConfig.Password,
+		DB:       0,
+	})
+	err := redisClient.Del(userId).Err()
 	if err != nil {
-		return "", err
+		return err
 	}
-	return val, nil
+	return nil
+}
+
+func (r *RedisRepository) CreateAuthToken(name, value string) error {
+	// redisClient := redis.NewClient(&redis.Options{
+	// 	Addr:     r.RedisConfig.Addr,
+	// 	Password: r.RedisConfig.Password,
+	// 	DB:       0,
+	// })
+	// err := redisClient.Set(name, value, 0).Err()
+	// if err != nil {
+	// 	return err
+	// }
+	return nil
 }
 
 func NewRedisRepository(c Config, ma monitoring.Agent) *RedisRepository {

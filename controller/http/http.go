@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	_ "rummy-session/docs"
 	"rummy-session/service"
 
 	"github.com/gin-gonic/gin"
@@ -30,11 +31,14 @@ func NewHttpController(config HttpConfig, s service.Service) *HttpController {
 
 func (c *HttpController) StartListening() error {
 	router := gin.Default()
-	router.GET("/greet", func(ctx *gin.Context) {
-		c.service.Login(ctx)
+	router.GET("/login", func(ctx *gin.Context) {
+		c.service.Validate(ctx)
 	})
+	router.DELETE("/logout", func(ctx *gin.Context) {
+		c.service.Invalidate(ctx)
+	})
+	router.GET("/rummysession/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	router.GET("/helloworldservice/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	err := http.ListenAndServe(":"+c.config.Port, router)
 	if err != nil {
 		return err

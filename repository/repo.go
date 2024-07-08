@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"rummy-session/repository/models"
 	"rummy-session/repository/redismiddleware"
 
 	"bitbucket.org/junglee_games/getsetgo/monitoring"
@@ -11,7 +12,9 @@ var (
 )
 
 type Repository interface {
-	GetTitle(name string) (string, error)
+	GetAuthToken(name string) models.AuthToken
+	DeleteAuthToken(name string) error
+	CreateAuthToken(name, value string) error
 }
 
 func NewRepository(c redismiddleware.Config, ma monitoring.Agent) Repository {

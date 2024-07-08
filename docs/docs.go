@@ -15,7 +15,43 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/greet/": {
+        "/api/v1/session/user/{user_id}/invalidate": {
+            "delete": {
+                "description": "get authtoken by",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Logout with authtoken",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userid",
+                        "name": "userId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "authToken",
+                        "name": "authToken",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/session/user/{user_id}/validate": {
             "get": {
                 "description": "get authtoken by",
                 "consumes": [

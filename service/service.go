@@ -1,14 +1,18 @@
 package service
 
 import (
+	"net/http"
 	"rummy-session/repository" // Add the import statement for the "repository" package
+
+	"rummy-session/service/model"
 
 	"bitbucket.org/junglee_games/getsetgo/configs"
 	"github.com/gin-gonic/gin"
 )
 
 type Service interface {
-	Login(ctx *gin.Context)
+	Validate(ctx *gin.Context)
+	Invalidate(ctx *gin.Context)
 }
 
 type service struct {
@@ -35,24 +39,81 @@ func NewService(repo repository.Repository, m *configs.DefaultMonitoringConfig) 
 // @Param			userId		query		string	true	"userid"
 // @Param			authToken	query		string	true	"authToken"
 // @Success		200			{string}	string	"ok"
-// @Router			/greet/ [get]
-func (s *service) Login(ctx *gin.Context) {
+// @Router			/api/v1/session/user/{user_id}/validate [get]
+func (s *service) Validate(ctx *gin.Context) {
 
 	userid, ok := ctx.GetQuery("userId")
+	if ok != true {
+		ctx.JSON(400, gin.H{"error": "userid is required"})
+		return
+	}
 	cmauthtoken, ok := ctx.GetQuery("authToken")
 	if ok != true {
-		ctx.JSON(400, gin.H{"error": "name is required"})
+		ctx.JSON(400, gin.H{"error": "authtoken is required"})
 		return
 	}
-	authtoken, err := s.repo.GetTitle(userid)
-	if err != nil {
-		ctx.JSON(400, gin.H{"error": err.Error()})
+	result := s.repo.GetAuthToken(userid)
+	if result.Error != nil {
+		ErrResponse := model.Validate{
+			Err: result.Error,
+		}
+		ctx.JSON((http.StatusNotFound), ErrResponse)
 		return
 	}
-	// ctx.JSON(200, gin.H{"message": "Hello, " + userid + " " + title})
-	if cmauthtoken == authtoken {
-		ctx.JSON(200, gin.H{"message": "Hello, " + userid + " " + authtoken})
+	if cmauthtoken == result.AuthToken {
+		Response := model.Validate{
+			IsTokenValid: true,
+			Err:          nil,
+		}
+		ctx.JSON(http.StatusOK, Response)
+		return
 	} else {
-		ctx.JSON(400, gin.H{"error": "Invalid Token"})
+		Response := model.Validate{
+			IsTokenValid: false,
+			Err:          nil,
+		}
+		ctx.JSON(http.StatusOK, Response)
+		return
+	}
+}
+
+// @Summary		Logout with authtoken
+// @Description	get authtoken by
+// @Accept			*/*
+// @Produce		json
+// @Param			userId		query		string	true	"userid"
+// @Param			authToken	query		string	true	"authToken"
+// @Success		200			{string}	string	"ok"
+// @Router			/api/v1/session/user/{user_id}/invalidate [delete]
+func (s *service) Invalidate(ctx *gin.Context) {
+	userid, ok := ctx.GetQuery("userId")
+	if ok != true {
+		ctx.JSON(400, gin.H{"error": "userid is required"})
+		return
+	}
+	cmauthtoken, ok := ctx.GetQuery("authToken")
+	if ok != true {
+		ctx.JSON(400, gin.H{"error": "authtoken is required"})
+		return
+	}
+	result := s.repo.GetAuthToken(userid)
+	if result.Error != nil {
+		ErrResponse := model.Validate{
+			Err: result.Error,
+		}
+		ctx.JSON((http.StatusNotFound), ErrResponse)
+		return
+	}
+	if cmauthtoken == result.AuthToken {
+		res := s.repo.DeleteAuthToken(userid)
+		ctx.JSON(http.StatusOK, res)
+		return
+	} else {
+		Response := model.Validate{
+			IsTokenValid: false,
+			Err:          nil,
+		}
+		ctx.JSON(http.StatusOK, Response)
+		return
 	}
 }

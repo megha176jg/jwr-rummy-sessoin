@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/session/user/{user_id}/invalidate": {
+        "/api/v1/session/user/invalidate": {
             "delete": {
                 "description": "get authtoken by",
                 "consumes": [
@@ -51,7 +51,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/session/user/{user_id}/validate": {
+        "/api/v1/session/user/validate": {
             "get": {
                 "description": "get authtoken by",
                 "consumes": [

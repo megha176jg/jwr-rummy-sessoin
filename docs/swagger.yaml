@@ -1,7 +1,7 @@
 info:
   contact: {}
 paths:
-  /api/v1/session/user/{user_id}/invalidate:
+  /api/v1/session/user/invalidate:
     delete:
       consumes:
       - '*/*'
@@ -25,7 +25,7 @@ paths:
           schema:
             type: string
       summary: Logout with authtoken
-  /api/v1/session/user/{user_id}/validate:
+  /api/v1/session/user/validate:
     get:
       consumes:
       - '*/*'

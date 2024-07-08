@@ -39,7 +39,7 @@ func NewService(repo repository.Repository, m *configs.DefaultMonitoringConfig) 
 // @Param			userId		query		string	true	"userid"
 // @Param			authToken	query		string	true	"authToken"
 // @Success		200			{string}	string	"ok"
-// @Router			/api/v1/session/user/{user_id}/validate [get]
+// @Router			/api/v1/session/user/validate [get]
 func (s *service) Validate(ctx *gin.Context) {
 
 	userid, ok := ctx.GetQuery("userId")
@@ -84,7 +84,7 @@ func (s *service) Validate(ctx *gin.Context) {
 // @Param			userId		query		string	true	"userid"
 // @Param			authToken	query		string	true	"authToken"
 // @Success		200			{string}	string	"ok"
-// @Router			/api/v1/session/user/{user_id}/invalidate [delete]
+// @Router			/api/v1/session/user/invalidate [delete]
 func (s *service) Invalidate(ctx *gin.Context) {
 	userid, ok := ctx.GetQuery("userId")
 	if ok != true {

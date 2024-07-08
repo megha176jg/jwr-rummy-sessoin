@@ -31,10 +31,10 @@ func NewHttpController(config HttpConfig, s service.Service) *HttpController {
 
 func (c *HttpController) StartListening() error {
 	router := gin.Default()
-	router.GET("/login", func(ctx *gin.Context) {
+	router.GET("/api/v1/session/user/validate", func(ctx *gin.Context) {
 		c.service.Validate(ctx)
 	})
-	router.DELETE("/logout", func(ctx *gin.Context) {
+	router.DELETE("/api/v1/session/user/invalidate", func(ctx *gin.Context) {
 		c.service.Invalidate(ctx)
 	})
 	router.GET("/rummysession/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))

@@ -11,6 +11,7 @@ type Config struct {
 	Addr     string
 	Password string
 }
+
 type RedisRepository struct {
 	RedisConfig     Config
 	monitoringAgent monitoring.Agent
@@ -46,16 +47,16 @@ func (r *RedisRepository) DeleteAuthToken(userId string) error {
 	return nil
 }
 
-func (r *RedisRepository) CreateAuthToken(name, value string) error {
-	// redisClient := redis.NewClient(&redis.Options{
-	// 	Addr:     r.RedisConfig.Addr,
-	// 	Password: r.RedisConfig.Password,
-	// 	DB:       0,
-	// })
-	// err := redisClient.Set(name, value, 0).Err()
-	// if err != nil {
-	// 	return err
-	// }
+func (r *RedisRepository) CreateAuthToken(userId, authToken string) error {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     r.RedisConfig.Addr,
+		Password: r.RedisConfig.Password,
+		DB:       0,
+	})
+	err := redisClient.Set(userId, authToken, 0).Err()
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

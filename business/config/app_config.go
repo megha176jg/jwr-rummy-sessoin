@@ -6,7 +6,7 @@ import (
 
 // AppConf application level properties of app
 type AppConf struct {
-	MinAge string `mapstructure:"kyc.kyc.auto.age.min"`
+	SessionTokenLength int `mapstructure:"kyc.kyc.auto.sessiontoken.length"`
 }
 
 func (a *AppConf) Set(m map[string]string) error {
@@ -15,8 +15,8 @@ func (a *AppConf) Set(m map[string]string) error {
 	}
 	return nil
 }
-func (a *AppConf) GetMinAge() string {
-	return a.MinAge
+func (a *AppConf) GetSessionTokenLength() int {
+	return a.SessionTokenLength
 }
 func New() *AppConf {
 	var a AppConf

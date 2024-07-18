@@ -43,7 +43,7 @@ func main() {
 		Addr:     conf.Repository.Addr,
 		Password: conf.Repository.Password,
 	}, monitoringAgent)
-	service := service.NewService(repository, conf.Monitoring)
+	service := service.NewService(repository, conf.Monitoring, *conf.Application)
 	controller := controller.NewController(conf.Controller, service)
 	controller.StartListening()
 }

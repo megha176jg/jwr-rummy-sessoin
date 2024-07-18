@@ -1,6 +1,7 @@
 package http
 
 import (
+	"net/http"
 	"rummy-session/service"
 
 	"github.com/gin-gonic/gin"
@@ -37,9 +38,9 @@ func (c *HttpController) StartListening() error {
 		c.service.Invalidate(ctx)
 	})
 	// router.GET("/rummysession/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	// err := http.ListenAndServe(":"+c.config.Port, router)
-	// if err != nil {
-	// 	return err
-	// }
+	err := http.ListenAndServe(":"+c.config.Port, router)
+	if err != nil {
+		return err
+	}
 	return nil
 }

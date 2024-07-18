@@ -59,7 +59,7 @@ func GetConfig(ctx context.Context, env, path string) *Config {
 		// logger.Panic(ctx, "while getting config from consul", err.Error())
 		// bypassing consul configuration
 		appConf = &ac.AppConf{
-			MinAge: "18",
+			SessionTokenLength: 5,
 		}
 	}
 	conf.Application = appConf

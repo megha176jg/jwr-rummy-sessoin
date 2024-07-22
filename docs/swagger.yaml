@@ -1,0 +1,111 @@
+definitions:
+  model.Err:
+    properties:
+      error_message:
+        type: string
+    type: object
+  model.TokenDeletion:
+    properties:
+      error:
+        $ref: '#/definitions/model.Err'
+    type: object
+  model.TokenGet:
+    properties:
+      auth_token:
+        type: string
+      error:
+        $ref: '#/definitions/model.Err'
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server rummy session server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  version: "1.0"
+paths:
+  /api/v1/session/user/{user_id}:
+    get:
+      consumes:
+      - text/plain
+      description: Create a session for a user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TokenGet'
+        "400":
+          description: Bad Request
+      summary: Create a session for a user
+      tags:
+      - session
+  /api/v1/session/user/{user_id}/invalidate:
+    delete:
+      consumes:
+      - text/plain
+      description: Invalidate a session for a user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TokenDeletion'
+        "400":
+          description: Bad Request
+      security:
+      - bearerToken: []
+      - BearerAuth: []
+      summary: Invalidate a session for a user
+      tags:
+      - session
+  /api/v1/session/user/{user_id}/validate:
+    get:
+      consumes:
+      - text/plain
+      description: Validate a session for a user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TokenGet'
+        "400":
+          description: Bad Request
+      security:
+      - bearerToken: []
+      - BearerAuth: []
+      summary: Validate a session for a user
+      tags:
+      - session
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

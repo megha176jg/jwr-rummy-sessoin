@@ -2,9 +2,12 @@ package http
 
 import (
 	"net/http"
+	_ "rummy-session/docs"
 	"rummy-session/service"
 
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type HttpConfig struct {
@@ -37,7 +40,7 @@ func (c *HttpController) StartListening() error {
 	router.DELETE("/api/v1/session/user/:user_id/invalidate", func(ctx *gin.Context) {
 		c.service.Invalidate(ctx)
 	})
-	// router.GET("/rummysession/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	router.GET("/rummysession/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	err := http.ListenAndServe(":"+c.config.Port, router)
 	if err != nil {
 		return err

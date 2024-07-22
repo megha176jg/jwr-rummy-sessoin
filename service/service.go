@@ -42,6 +42,15 @@ func NewService(repo repository.Repository, m *configs.DefaultMonitoringConfig, 
 	}
 }
 
+// @Summary		Create a session for a user
+// @Description	Create a session for a user
+// @Tags			session
+// @Accept			text/plain
+// @Produce		json
+// @Param			user_id	path		string	true	"User ID"
+// @Success		200		{object}	model.TokenGet
+// @Failure		400
+// @Router			/api/v1/session/user/{user_id} [get]
 func (s *service) Create(ctx *gin.Context) {
 	agent, err := monitoringfactory.GetMonitoringAgent(s.monitoringConfig)
 	if err != nil {
@@ -86,6 +95,17 @@ func (s *service) Create(ctx *gin.Context) {
 	}
 }
 
+// @Summary		Validate a session for a user
+// @Description	Validate a session for a user
+// @Security		bearerToken
+// @Tags			session
+// @Accept			text/plain
+// @Produce		json
+// @Param			user_id	path	string	true	"User ID"
+// @Security		BearerAuth
+// @Success		200	{object}	model.TokenGet
+// @Failure		400
+// @Router			/api/v1/session/user/{user_id}/validate [get]
 func (s *service) Validate(ctx *gin.Context) {
 	agent, err := monitoringfactory.GetMonitoringAgent(s.monitoringConfig)
 	if err != nil {
@@ -133,6 +153,17 @@ func (s *service) Validate(ctx *gin.Context) {
 	}
 }
 
+// @Summary		Invalidate a session for a user
+// @Description	Invalidate a session for a user
+// @Security		bearerToken
+// @Tags			session
+// @Accept			text/plain
+// @Produce		json
+// @Param			user_id	path	string	true	"User ID"
+// @Security		BearerAuth
+// @Success		200	{object}	model.TokenDeletion
+// @Failure		400
+// @Router			/api/v1/session/user/{user_id}/invalidate [delete]
 func (s *service) Invalidate(ctx *gin.Context) {
 	agent, err := monitoringfactory.GetMonitoringAgent(s.monitoringConfig)
 	if err != nil {
